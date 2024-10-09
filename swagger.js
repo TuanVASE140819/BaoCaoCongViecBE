@@ -1,4 +1,3 @@
-// swagger.js
 const swaggerJsDoc = require("swagger-jsdoc");
 
 const swaggerOptions = {
@@ -25,7 +24,7 @@ const swaggerOptions = {
         },
         User: {
           type: "object",
-          required: ["tenNhanVien", "email", "role"],
+          required: ["tenNhanVien", "email", "IDRole"],
           properties: {
             tenNhanVien: {
               type: "string",
@@ -35,16 +34,49 @@ const swaggerOptions = {
               type: "string",
               description: "Email của nhân viên",
             },
-            role: {
+            IDRole: {
               type: "string",
               description: "ID của vai trò",
+            },
+          },
+        },
+        Report: {
+          type: "object",
+          required: [
+            "ngayBaoCao",
+            "noiDungHomNay",
+            "noiDungDuKienNgayMai",
+            "IDnhanVien",
+          ],
+          properties: {
+            ngayBaoCao: {
+              type: "string",
+              format: "date",
+              description: "Ngày báo cáo",
+            },
+            noiDungHomNay: {
+              type: "string",
+              description: "Nội dung hôm nay",
+            },
+            noiDungDuKienNgayMai: {
+              type: "string",
+              description: "Nội dung dự kiến ngày mai",
+            },
+            IDnhanVien: {
+              type: "string",
+              description: "ID của nhân viên",
             },
           },
         },
       },
     },
   },
-  apis: ["./routes/*.js", "./routes/roles/*.js", "./routes/users/*.js"],
+  apis: [
+    "./routes/*.js",
+    "./routes/roles/*.js",
+    "./routes/users/*.js",
+    "./routes/reports/*.js",
+  ],
 };
 
 const swaggerDocs = swaggerJsDoc(swaggerOptions);

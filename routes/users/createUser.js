@@ -25,12 +25,19 @@ const User = require("../../models/User");
  *         description: Lỗi khi tạo nhân viên
  */
 router.post("/", async (req, res) => {
-  const { tenNhanVien, email, roleId } = req.body;
+  const { tenNhanVien, email, IDRole } = req.body;
+
+  // Kiểm tra nếu IDRole không được cung cấp
+  if (!IDRole) {
+    return res.status(400).json({ message: "Role ID là bắt buộc" });
+  }
+
   const user = new User({
     tenNhanVien,
     email,
-    role: roleId,
+    IDRole,
   });
+
   try {
     const newUser = await user.save();
     res.status(201).json(newUser);

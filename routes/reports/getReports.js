@@ -1,13 +1,13 @@
 const express = require("express");
 const router = express.Router();
-const User = require("../../models/User");
+const Report = require("../../models/Report");
 
 /**
  * @swagger
- * /api/users:
+ * /api/reports:
  *   get:
- *     summary: Lấy tất cả nhân viên
- *     tags: [Users]
+ *     summary: Lấy tất cả báo cáo
+ *     tags: [Reports]
  *     responses:
  *       200:
  *         description: Thành công
@@ -16,12 +16,12 @@ const User = require("../../models/User");
  *             schema:
  *               type: array
  *               items:
- *                 $ref: '#/components/schemas/User'
+ *                 $ref: '#/components/schemas/Report'
  */
 router.get("/", async (req, res) => {
   try {
-    const users = await User.find().populate("IDRole");
-    res.json(users);
+    const reports = await Report.find().populate("nhanVien");
+    res.json(reports);
   } catch (err) {
     res.status(500).json({ message: err.message });
   }

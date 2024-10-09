@@ -9,7 +9,7 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  role: {
+  IDRole: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "Role",
     required: true,
