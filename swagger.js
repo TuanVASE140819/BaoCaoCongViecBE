@@ -9,7 +9,8 @@ const swaggerOptions = {
       description:
         "API documentation for a Node.js project with Swagger and MongoDB",
     },
-    servers: [{ url: `http://localhost:${process.env.PORT}` }],
+    // servers: [{ url: `http://localhost:${process.env.PORT}` }],
+    servers: [{ url: `https://baocaocongviecbe-1.onrender.com/api` }], // Cập nhật URL của server
     components: {
       schemas: {
         Role: {
