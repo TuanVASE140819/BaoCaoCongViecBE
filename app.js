@@ -28,10 +28,12 @@ mongoose
 const userRoutes = require("./routes/userRoutes");
 const roleRoutes = require("./routes/roleRoutes");
 const reportRoutes = require("./routes/reportRoutes");
+const authRoutes = require("./routes/auth"); // Import auth routes
 
 app.use("/api/users", userRoutes);
 app.use("/api/roles", roleRoutes);
 app.use("/api/reports", reportRoutes);
+app.use("/api/auth", authRoutes); // Use auth routes
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));

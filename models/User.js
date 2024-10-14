@@ -8,6 +8,11 @@ const userSchema = new mongoose.Schema({
   email: {
     type: String,
     required: true,
+    unique: true, // Đảm bảo email là duy nhất
+  },
+  password: {
+    type: String,
+    required: true,
   },
   IDRole: {
     type: mongoose.Schema.Types.ObjectId,
