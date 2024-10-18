@@ -1,12 +1,13 @@
 const express = require("express");
 const router = express.Router();
 const Report = require("../../models/Report");
+const User = require("../../models/User");
 
 /**
  * @swagger
  * /api/reports:
  *   get:
- *     summary: Lấy tất cả báo cáo hoặc lọc theo ngày
+ *     summary: Lấy tất cả báo cáo hoặc lọc theo ngày, bao gồm cả những nhân viên chưa báo cáo
  *     tags: [Reports]
  *     parameters:
  *       - in: query
@@ -24,7 +25,19 @@ const Report = require("../../models/Report");
  *             schema:
  *               type: array
  *               items:
- *                 $ref: '#/components/schemas/Report'
+ *                 type: object
+ *                 properties:
+ *                   _id:
+ *                     type: string
+ *                   ngayBaoCao:
+ *                     type: string
+ *                     format: date
+ *                   noiDungHomNay:
+ *                     type: string
+ *                   noiDungDuKienNgayMai:
+ *                     type: string
+ *                   IDnhanVien:
+ *                     $ref: '#/components/schemas/User'
  */
 router.get("/", async (req, res) => {
   const { date } = req.query;
@@ -35,8 +48,33 @@ router.get("/", async (req, res) => {
   }
 
   try {
+    // Lấy danh sách tất cả nhân viên
+    const allUsers = await User.find();
+
+    // Lấy danh sách báo cáo theo ngày (nếu có)
     const reports = await Report.find(query).populate("IDnhanVien");
-    res.json(reports);
+
+    // Tạo một map để dễ dàng tra cứu báo cáo theo ID nhân viên
+    const reportMap = new Map();
+    reports.forEach((report) => {
+      reportMap.set(report.IDnhanVien._id.toString(), report);
+    });
+
+    // Tạo danh sách kết quả bao gồm cả những nhân viên chưa báo cáo
+    const result = allUsers.map((user) => {
+      const report = reportMap.get(user._id.toString());
+      return report
+        ? report
+        : {
+            _id: null,
+            ngayBaoCao: null,
+            noiDungHomNay: null,
+            noiDungDuKienNgayMai: null,
+            IDnhanVien: user,
+          };
+    });
+
+    res.json(result);
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
