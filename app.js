@@ -3,12 +3,13 @@ const mongoose = require("mongoose");
 const swaggerUi = require("swagger-ui-express");
 const dotenv = require("dotenv");
 const cors = require("cors"); // Import the cors package
+const bodyParser = require("body-parser"); // Import body-parser
 
 // Load config
 dotenv.config();
 
 const app = express();
-app.use(express.json());
+app.use(bodyParser.json()); // Use body-parser to parse JSON
 app.use(cors()); // Enable CORS
 
 // Import Swagger docs
@@ -29,11 +30,13 @@ const userRoutes = require("./routes/userRoutes");
 const roleRoutes = require("./routes/roleRoutes");
 const reportRoutes = require("./routes/reportRoutes");
 const authRoutes = require("./routes/auth"); // Import auth routes
+const noteRoutes = require("./routes/noteRoutes"); // Import note routes
 
 app.use("/api/users", userRoutes);
 app.use("/api/roles", roleRoutes);
 app.use("/api/reports", reportRoutes);
 app.use("/api/auth", authRoutes); // Use auth routes
+app.use("/api/notes", noteRoutes); // Use note routes
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
