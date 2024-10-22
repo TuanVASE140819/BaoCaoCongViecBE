@@ -31,12 +31,14 @@ const roleRoutes = require("./routes/roleRoutes");
 const reportRoutes = require("./routes/reportRoutes");
 const authRoutes = require("./routes/auth"); // Import auth routes
 const noteRoutes = require("./routes/noteRoutes"); // Import note routes
+const attendanceRoutes = require("./routes/attendance"); // Import attendance routes
 
 app.use("/api/users", userRoutes);
 app.use("/api/roles", roleRoutes);
 app.use("/api/reports", reportRoutes);
 app.use("/api/auth", authRoutes); // Use auth routes
 app.use("/api/notes", noteRoutes); // Use note routes
+app.use("/api/attendance", attendanceRoutes); // Use attendance routes
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
