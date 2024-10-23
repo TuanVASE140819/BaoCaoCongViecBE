@@ -53,6 +53,33 @@ const options = {
             },
           },
         },
+        Note: {
+          type: "object",
+          properties: {
+            content: {
+              type: "string",
+            },
+            reportId: {
+              type: "string",
+            },
+          },
+        },
+        Attendance: {
+          type: "object",
+          properties: {
+            ngayChamCong: {
+              type: "string",
+              format: "date",
+            },
+            IDnhanVien: {
+              type: "string",
+            },
+            trangThai: {
+              type: "string",
+              enum: ["Đi làm", "Nghỉ phép", "Nghỉ không phép"],
+            },
+          },
+        },
       },
     },
     paths: {
@@ -127,6 +154,29 @@ const options = {
             },
             400: {
               description: "Lỗi khi đăng nhập",
+            },
+          },
+        },
+      },
+      "/api/attendance/import": {
+        post: {
+          summary: "Import dữ liệu chấm công từ file Excel",
+          tags: ["Attendance"],
+          consumes: ["multipart/form-data"],
+          parameters: [
+            {
+              in: "formData",
+              name: "file",
+              type: "file",
+              description: "File Excel chứa dữ liệu chấm công",
+            },
+          ],
+          responses: {
+            200: {
+              description: "Import dữ liệu thành công",
+            },
+            400: {
+              description: "Lỗi khi import dữ liệu",
             },
           },
         },
