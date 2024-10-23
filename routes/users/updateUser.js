@@ -1,3 +1,4 @@
+// routes/users/updateUser.js
 const express = require("express");
 const router = express.Router();
 const User = require("../../models/User");
@@ -34,7 +35,7 @@ const User = require("../../models/User");
  *         description: Không tìm thấy nhân viên
  */
 router.put("/:id", async (req, res) => {
-  const { tenNhanVien, email, roleId } = req.body;
+  const { tenNhanVien, email, roleId, ngaySinh, nguoiTao } = req.body;
   try {
     const user = await User.findById(req.params.id);
     if (!user)
@@ -43,6 +44,8 @@ router.put("/:id", async (req, res) => {
     user.tenNhanVien = tenNhanVien;
     user.email = email;
     user.role = roleId;
+    user.ngaySinh = ngaySinh;
+    user.nguoiTao = nguoiTao;
     const updatedUser = await user.save();
     res.json(updatedUser);
   } catch (err) {

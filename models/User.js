@@ -1,3 +1,4 @@
+// models/User.js
 const mongoose = require("mongoose");
 
 const userSchema = new mongoose.Schema({
@@ -18,6 +19,18 @@ const userSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: "Role",
     required: true,
+  },
+  ngaySinh: {
+    type: Date,
+    required: false,
+  },
+  ngayTao: {
+    type: Date,
+    default: Date.now,
+  },
+  nguoiTao: {
+    type: String,
+    required: false,
   },
 });
 

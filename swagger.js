@@ -25,6 +25,18 @@ const options = {
             IDRole: {
               type: "string",
             },
+            ngaySinh: {
+              type: "string",
+              format: "date",
+            },
+            ngayTao: {
+              type: "string",
+              format: "date-time",
+              readOnly: true, // Mark ngayTao as read-only
+            },
+            nguoiTao: {
+              type: "string",
+            },
           },
         },
         Role: {
