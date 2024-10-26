@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const User = require("../../models/User");
+const { io } = require("../../app"); // Import io từ app.js
 
 /**
  * @swagger
@@ -53,6 +54,9 @@ router.get("/", async (req, res) => {
         $lt: new Date(new Date().getFullYear(), month, 1),
       },
     }).select("_id tenNhanVien email ngaySinh");
+
+    // Gửi thông báo qua Socket.IO
+    io.emit("birthdayNotification", users);
 
     res.json(users);
   } catch (err) {
