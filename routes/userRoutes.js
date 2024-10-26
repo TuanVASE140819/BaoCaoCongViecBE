@@ -12,9 +12,9 @@ const getUsers = require("./users/getUsers");
 // Định nghĩa các route
 router.use("/birthdays", getBirthdaysByMonth); // Đặt route này trước các route khác có thể gây xung đột
 router.use("/", createUser);
-router.use("/:id", deleteUser);
-router.use("/:id", updateUser);
-router.use("/:id", getUserById);
-router.use("/", getUsers);
+router.delete("/:id", deleteUser);
+router.put("/:id", updateUser); // Đảm bảo rằng route updateUser được định nghĩa
+router.get("/:id", getUserById);
+router.get("/", getUsers);
 
 module.exports = router;
