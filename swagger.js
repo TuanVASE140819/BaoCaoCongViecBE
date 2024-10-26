@@ -193,6 +193,58 @@ const options = {
           },
         },
       },
+      "/api/users/birthdays": {
+        get: {
+          summary: "Lấy danh sách sinh nhật nhân viên theo tháng",
+          tags: ["Users"],
+          parameters: [
+            {
+              in: "query",
+              name: "month",
+              schema: {
+                type: "integer",
+                minimum: 1,
+                maximum: 12,
+              },
+              required: true,
+              description: "Tháng sinh nhật (1-12)",
+            },
+          ],
+          responses: {
+            200: {
+              description: "Thành công",
+              content: {
+                "application/json": {
+                  schema: {
+                    type: "array",
+                    items: {
+                      type: "object",
+                      properties: {
+                        _id: {
+                          type: "string",
+                        },
+                        tenNhanVien: {
+                          type: "string",
+                        },
+                        email: {
+                          type: "string",
+                        },
+                        ngaySinh: {
+                          type: "string",
+                          format: "date-time",
+                        },
+                      },
+                    },
+                  },
+                },
+              },
+            },
+            400: {
+              description: "Lỗi khi lấy danh sách sinh nhật",
+            },
+          },
+        },
+      },
       // Các route khác...
     },
   },
