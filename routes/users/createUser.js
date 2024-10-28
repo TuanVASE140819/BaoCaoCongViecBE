@@ -1,5 +1,6 @@
 const express = require("express");
 const router = express.Router();
+const bcrypt = require("bcryptjs");
 const User = require("../../models/User");
 
 /**
@@ -51,17 +52,20 @@ router.post("/", async (req, res) => {
   const { tenNhanVien, email, password, IDRole, ngaySinh, nguoiTao, isActive } =
     req.body;
 
-  const user = new User({
-    tenNhanVien,
-    email,
-    password,
-    IDRole,
-    ngaySinh,
-    nguoiTao,
-    isActive,
-  });
-
   try {
+    // Mã hóa mật khẩu
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    const user = new User({
+      tenNhanVien,
+      email,
+      password: hashedPassword,
+      IDRole,
+      ngaySinh,
+      nguoiTao,
+      isActive,
+    });
+
     const newUser = await user.save();
     res.status(201).json(newUser);
   } catch (err) {
