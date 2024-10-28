@@ -7,7 +7,7 @@ const User = require("../../models/User");
  * @swagger
  * /api/reports:
  *   get:
- *     summary: Lấy tất cả báo cáo hoặc lọc theo ngày, bao gồm cả những nhân viên chưa báo cáo
+ *     summary: Lấy tất cả báo cáo hoặc lọc theo ngày, bao gồm cả những nhân viên chưa báo cáo trừ những nhân viên bị isActive = false
  *     tags: [Reports]
  *     parameters:
  *       - in: query
@@ -48,8 +48,8 @@ router.get("/", async (req, res) => {
   }
 
   try {
-    // Lấy danh sách tất cả nhân viên
-    const allUsers = await User.find();
+    // Lấy danh sách tất cả nhân viên trừ những nhân viên bị isActive = false
+    const allUsers = await User.find({ isActive: true });
 
     // Lấy danh sách báo cáo theo ngày (nếu có)
     const reports = await Report.find(query).populate("IDnhanVien");

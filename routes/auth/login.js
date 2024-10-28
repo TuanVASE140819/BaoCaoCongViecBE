@@ -46,11 +46,12 @@ router.post("/login", async (req, res) => {
         .json({ message: "Email hoặc mật khẩu không đúng" });
     }
 
-    // Kiểm tra mật khẩu
-    if (!user.password) {
-      return res.status(400).json({ message: "Mật khẩu không hợp lệ" });
+    // Kiểm tra trạng thái kích hoạt
+    if (!user.isActive) {
+      return res.status(400).json({ message: "Tài khoản đã bị vô hiệu hóa" });
     }
 
+    // Kiểm tra mật khẩu
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) {
       return res

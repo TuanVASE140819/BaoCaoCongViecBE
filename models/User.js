@@ -1,7 +1,6 @@
-// models/User.js
 const mongoose = require("mongoose");
 
-const userSchema = new mongoose.Schema({
+const UserSchema = new mongoose.Schema({
   tenNhanVien: {
     type: String,
     required: true,
@@ -9,7 +8,7 @@ const userSchema = new mongoose.Schema({
   email: {
     type: String,
     required: true,
-    unique: true, // Đảm bảo email là duy nhất
+    unique: true,
   },
   password: {
     type: String,
@@ -22,7 +21,7 @@ const userSchema = new mongoose.Schema({
   },
   ngaySinh: {
     type: Date,
-    required: false,
+    required: true,
   },
   ngayTao: {
     type: Date,
@@ -30,8 +29,12 @@ const userSchema = new mongoose.Schema({
   },
   nguoiTao: {
     type: String,
-    required: false,
+    required: true,
+  },
+  isActive: {
+    type: Boolean,
+    default: true,
   },
 });
 
-module.exports = mongoose.model("User", userSchema);
+module.exports = mongoose.model("User", UserSchema);

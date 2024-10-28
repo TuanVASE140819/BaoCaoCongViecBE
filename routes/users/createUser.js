@@ -1,4 +1,3 @@
-// routes/users/createUser.js
 const express = require("express");
 const router = express.Router();
 const User = require("../../models/User");
@@ -35,6 +34,9 @@ const User = require("../../models/User");
  *               nguoiTao:
  *                 type: string
  *                 description: Người tạo nhân viên
+ *               isActive:
+ *                 type: boolean
+ *                 description: Trạng thái kích hoạt của nhân viên
  *     responses:
  *       201:
  *         description: Nhân viên được tạo
@@ -46,7 +48,8 @@ const User = require("../../models/User");
  *         description: Lỗi khi tạo nhân viên
  */
 router.post("/", async (req, res) => {
-  const { tenNhanVien, email, password, IDRole, ngaySinh, nguoiTao } = req.body;
+  const { tenNhanVien, email, password, IDRole, ngaySinh, nguoiTao, isActive } =
+    req.body;
 
   const user = new User({
     tenNhanVien,
@@ -55,6 +58,7 @@ router.post("/", async (req, res) => {
     IDRole,
     ngaySinh,
     nguoiTao,
+    isActive,
   });
 
   try {

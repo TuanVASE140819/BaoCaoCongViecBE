@@ -7,7 +7,7 @@ const { io } = require("../../app"); // Import io từ app.js
  * @swagger
  * /api/users/birthdays:
  *   get:
- *     summary: Lấy danh sách sinh nhật nhân viên theo tháng
+ *     summary: Lấy danh sách sinh nhật nhân viên theo tháng, trừ những nhân viên có isActive = false
  *     tags: [Users]
  *     parameters:
  *       - in: query
@@ -37,6 +37,8 @@ const { io } = require("../../app"); // Import io từ app.js
  *                   ngaySinh:
  *                     type: string
  *                     format: date-time
+ *                   isActive:
+ *                     type: boolean
  *       400:
  *         description: Lỗi khi lấy danh sách sinh nhật
  */
@@ -53,7 +55,8 @@ router.get("/", async (req, res) => {
         $gte: new Date(new Date().getFullYear(), month - 1, 1),
         $lt: new Date(new Date().getFullYear(), month, 1),
       },
-    }).select("_id tenNhanVien email ngaySinh");
+      isActive: true,
+    }).select("_id tenNhanVien email ngaySinh isActive");
 
     // Gửi thông báo qua Socket.IO
     io.emit("birthdayNotification", users);

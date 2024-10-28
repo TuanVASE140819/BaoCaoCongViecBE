@@ -37,6 +37,10 @@ const options = {
             nguoiTao: {
               type: "string",
             },
+            isActive: {
+              type: "boolean",
+              default: true,
+            },
           },
         },
         Role: {
@@ -241,6 +245,199 @@ const options = {
             },
             400: {
               description: "Lỗi khi lấy danh sách sinh nhật",
+            },
+          },
+        },
+      },
+      "/api/users": {
+        post: {
+          summary: "Tạo nhân viên mới",
+          tags: ["Users"],
+          requestBody: {
+            required: true,
+            content: {
+              "application/json": {
+                schema: {
+                  type: "object",
+                  properties: {
+                    tenNhanVien: {
+                      type: "string",
+                      description: "Tên nhân viên",
+                    },
+                    email: {
+                      type: "string",
+                      description: "Email của nhân viên",
+                    },
+                    password: {
+                      type: "string",
+                      description: "Mật khẩu của nhân viên",
+                    },
+                    IDRole: {
+                      type: "string",
+                      description: "ID của vai trò",
+                    },
+                    ngaySinh: {
+                      type: "string",
+                      format: "date",
+                      description: "Ngày sinh của nhân viên",
+                    },
+                    nguoiTao: {
+                      type: "string",
+                      description: "Người tạo nhân viên",
+                    },
+                    isActive: {
+                      type: "boolean",
+                      description: "Trạng thái kích hoạt của nhân viên",
+                    },
+                  },
+                },
+              },
+            },
+          },
+          responses: {
+            201: {
+              description: "Nhân viên được tạo",
+              content: {
+                "application/json": {
+                  schema: {
+                    $ref: "#/components/schemas/User",
+                  },
+                },
+              },
+            },
+            400: {
+              description: "Lỗi khi tạo nhân viên",
+            },
+          },
+        },
+      },
+      "/api/users/{id}": {
+        put: {
+          summary: "Cập nhật thông tin nhân viên",
+          tags: ["Users"],
+          parameters: [
+            {
+              in: "path",
+              name: "id",
+              schema: {
+                type: "string",
+              },
+              required: true,
+              description: "ID của nhân viên",
+            },
+          ],
+          requestBody: {
+            required: true,
+            content: {
+              "application/json": {
+                schema: {
+                  type: "object",
+                  properties: {
+                    tenNhanVien: {
+                      type: "string",
+                      description: "Tên nhân viên",
+                    },
+                    email: {
+                      type: "string",
+                      description: "Email của nhân viên",
+                    },
+                    password: {
+                      type: "string",
+                      description: "Mật khẩu của nhân viên",
+                    },
+                    IDRole: {
+                      type: "string",
+                      description: "ID của vai trò",
+                    },
+                    ngaySinh: {
+                      type: "string",
+                      format: "date",
+                      description: "Ngày sinh của nhân viên",
+                    },
+                    nguoiTao: {
+                      type: "string",
+                      description: "Người tạo nhân viên",
+                    },
+                    isActive: {
+                      type: "boolean",
+                      description: "Trạng thái kích hoạt của nhân viên",
+                    },
+                  },
+                },
+              },
+            },
+          },
+          responses: {
+            200: {
+              description: "Thành công",
+              content: {
+                "application/json": {
+                  schema: {
+                    $ref: "#/components/schemas/User",
+                  },
+                },
+              },
+            },
+            400: {
+              description: "Lỗi khi cập nhật nhân viên",
+            },
+            404: {
+              description: "Không tìm thấy nhân viên",
+            },
+          },
+        },
+      },
+      "/api/reports": {
+        get: {
+          summary:
+            "Lấy tất cả báo cáo hoặc lọc theo ngày, bao gồm cả những nhân viên chưa báo cáo trừ những nhân viên bị isActive = false",
+          tags: ["Reports"],
+          parameters: [
+            {
+              in: "query",
+              name: "date",
+              schema: {
+                type: "string",
+                format: "date",
+              },
+              required: false,
+              description: "Ngày báo cáo (YYYY-MM-DD)",
+            },
+          ],
+          responses: {
+            200: {
+              description: "Thành công",
+              content: {
+                "application/json": {
+                  schema: {
+                    type: "array",
+                    items: {
+                      type: "object",
+                      properties: {
+                        _id: {
+                          type: "string",
+                        },
+                        ngayBaoCao: {
+                          type: "string",
+                          format: "date",
+                        },
+                        noiDungHomNay: {
+                          type: "string",
+                        },
+                        noiDungDuKienNgayMai: {
+                          type: "string",
+                        },
+                        IDnhanVien: {
+                          $ref: "#/components/schemas/User",
+                        },
+                      },
+                    },
+                  },
+                },
+              },
+            },
+            404: {
+              description: "Không tìm thấy báo cáo",
             },
           },
         },
