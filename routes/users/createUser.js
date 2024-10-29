@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const bcrypt = require("bcryptjs");
 const User = require("../../models/User");
+const { sendWelcomeEmail } = require("../../utils/sendEmail");
 
 /**
  * @swagger
@@ -67,6 +68,10 @@ router.post("/", async (req, res) => {
     });
 
     const newUser = await user.save();
+
+    // Gửi email chào mừng
+    sendWelcomeEmail(email, tenNhanVien);
+
     res.status(201).json(newUser);
   } catch (err) {
     res.status(400).json({ message: err.message });

@@ -3,6 +3,7 @@ const router = express.Router();
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const User = require("../../models/User");
+const { sendWelcomeEmail } = require("../../utils/sendEmail");
 
 /**
  * @swagger
@@ -48,6 +49,9 @@ router.post("/register", async (req, res) => {
     });
 
     const newUser = await user.save();
+
+    // Gửi email chào mừng
+    sendWelcomeEmail(email, tenNhanVien);
 
     // Tạo token
     const token = jwt.sign({ userId: newUser._id }, process.env.JWT_SECRET, {
